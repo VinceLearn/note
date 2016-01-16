@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>解析Json</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+  	<div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+        </div>
+      </div>
+    </div>
+    <script src="http://libs.useso.com/js/jquery/2.1.1/jquery.min.js"></script>
+  	<script type="text/javascript">
+
+    var dataset = [
+      {'浙江省':[
+        {'杭州市':[
+          '江干区','拱墅区'
+        ]},
+        {'宁波市':[
+          '江东区','海曙区','高新区','鄞州区','江北区','镇海区'
+        ]},{
+          '温州市':[
+            '鹿城区','苍南县','平阳县','瑞安市'
+          ]}
+      ]},
+      {'江苏省':[
+        {'南京市':[
+          '玄武区','鼓楼区'
+        ]},
+        {'苏州市':[
+          '苏州1','苏州2'
+        ]}
+      ]}
+    ];
+
+    var datasetKeys = Object.keys(dataset);
+    //dataset[0]:[object Object]
+    //dataset[0]["浙江省"]:[object Object],[object Object],[object Object]
+    //dataset[0]["浙江省"][0]:[object Object]
+    //dataset[0]["浙江省"][0]["杭州市"]:江干区,拱墅区
+    var needData = '';
+    function parseData(keys, vals){
+      $.each(keys, function(key, val){
+        //console.log(key + "," + val);
+        var eachKey = val;
+        var eachVal = vals[eachKey];
+        //console.log(typeof(eachKey-0) == 'number');
+        //console.log('1');
+        if(typeof(eachKey-0) == 'number' && typeof(eachVal) == 'string'){
+          //console.log("eachVal:" + eachVal);
+          //console.log('2');
+          needData += eachVal + ',';
+          //console.log("needData:" + needData);
+
+        }else{
+          //console.log('3');
+            var childKeys = Object.keys(eachVal);
+            // console.log("tf:" + typeof(eachKey-0) == 'number' );
+            var regex = /\d+/;
+            console.log("--"+(parseInt(eachKey))+","+(regex.test(eachKey))+"--");
+            if(regex.test(eachKey) ){
+              console.log('3-1');
+              if(typeof(eachVal) == 'object'){
+                console.log('3-1-1');
+                  parseData(childKeys, eachVal);
+              }
+            }else{
+              console.log('3-2');
+              needData += eachKey + ',';
+              parseData(childKeys, eachVal);
+            }
+        }
+
+        console.log("needData:" + needData);
+      });
+    }
+   
+
+
+      $(function(){
+        //console.log('文件读取_dataset[0]:' + dataset[0]+',dataset[0]["浙江省"]:'+dataset[0]['浙江省']);
+        //  console.log('文件读取_dataset[0]["浙江省"][0]:' + dataset[0]["浙江省"][0]+',dataset[0]["浙江省"][0]["杭州市"]:'+dataset[0]["浙江省"][0]['杭州市']);
+        //console.log('文件读取:' + dataset[0]['浙江省'][0]['杭州市'] +dataset[0]['浙江省']['0']['杭州市'][0]);
+        parseData(datasetKeys, dataset);
+      });
+  	</script>
+  </body>

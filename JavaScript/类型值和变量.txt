@@ -1,1 +1,25 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+  <p id="d">
 
+  </p>
+  <script>
+    //日期和时间
+    var then = new Date(2016,0,1);//2016年1月1日，月份从0开始算
+    var later = new Date(2016,0,1,17,10,30);//
+    var now = new Date();//当前日期和时间
+    var elapsed = now - then;//日期减法：计算时间间隔的毫秒数
+    var result  = '';
+    result += later.getFullYear() + ',\n';//2016
+    result += later.getMonth() + ',\n';//0：从0开始计算的月份
+    result += later.getDate() + ',\n';//1:从1开始计算的天数
+    result += later.getDay() + ',\n';//5:得到星期几, 0代表星期日,5代表星期一
+    result += later.getHours() + ',\n';//当前时间
+    result += later.getUTCHours();//使用UTC表示小时的时间,基于时区
+    document.getElementById("d").innerText = result;
+  </script>
+</body>
+</html>
